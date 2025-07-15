@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تطور اللاعبين</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      direction: rtl;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .player-list button {
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      text-align: right;
+    }
+    .player-card {
+      background: white;
+      border: 2px solid #4caf50;
+      padding: 15px;
+      margin-top: 15px;
+    }
+    .ad-box {
+      margin-top: 20px;
+      padding: 10px;
+      background: #ffe;
+      text-align: center;
+      border: 1px dashed #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h2>ابحث عن لاعب</h2>
+<input type="text" id="searchInput" placeholder="اكتب اسم اللاعب...">
+
+<div class="player-list" id="playerList"></div>
+
+<div id="playerDetails"></div>
+
+<script>
+  const players = [
+    { name: "Kylian Mbappé", rating: 91, potential: 95, age: 25, team: "PSG" },
+    { name: "Jude Bellingham", rating: 85, potential: 92, age: 20, team: "Real Madrid" },
+    { name: "Lamine Yamal", rating: 76, potential: 90, age: 16, team: "Barcelona" },
+    { name: "Arda Güler", rating: 73, potential: 88, age: 19, team: "Real Madrid" },
+    { name: "Pedri", rating: 84, potential: 91, age: 21, team: "Barcelona" },
+    { name: "Gavi", rating: 82, potential: 90, age: 20, team: "Barcelona" },
+    { name: "Musiala", rating: 86, potential: 93, age: 21, team: "Bayern Munich" },
+    { name: "Fati", rating: 77, potential: 89, age: 21, team: "Brighton" },
+    { name: "Vinícius Jr.", rating: 89, potential: 93, age: 24, team: "Real Madrid" },
+    { name: "Rodrygo", rating: 85, potential: 91, age: 23, team: "Real Madrid" }
+  ];
+
+  const playerList = document.getElementById("playerList");
+  const playerDetails = document.getElementById("playerDetails");
+  const searchInput = document.getElementById("searchInput");
+
+  function showList(filter = "") {
+    playerList.innerHTML = "";
+
+    const filteredPlayers = players.filter(player =>
+      player.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    filteredPlayers.forEach(player => {
+      const btn = document.createElement("button");
+      btn.textContent = player.name;
+      btn.onclick = () => showDetails(player);
+      playerList.appendChild(btn);
+    });
+
+    if (filteredPlayers.length === 0) {
+      playerList.innerHTML = "<p>لا يوجد لاعبين بهذا الاسم.</p>";
+    }
+  }
+
+  function showDetails(player) {
+    playerDetails.innerHTML = `
+      <div class="player-card">
+        <h3>${player.name}</h3>
+        <p>🎯 التقييم الحالي: ${player.rating}</p>
+        <p>🚀 أقصى تطور: ${player.potential}</p>
+        <p>🎂 العمر: ${player.age}</p>
+        <p>🏟️ الفريق: ${player.team}</p>
+      </div>
+      <div class="ad-box">
+        🔸 إعلان غير مزعج 🔸<br>
+        <iframe src="https://example.com/ad" width="100%" height="60" style="border:none;"></iframe>
+      </div>
+    `;
+  }
+
+  // أول تحميل
+  showList();
+
+  // البحث أثناء الكتابة
+  searchInput.addEventListener("input", () => {
+    showList(searchInput.value);
+  });
+</script>
+
+</body>
+</html>
